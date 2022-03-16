@@ -1,0 +1,7 @@
+# FOLDERS
+.ipynb_checkpoints
+__pycache__
+data
+
+# FILES
+*.json
