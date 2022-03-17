@@ -5,3 +5,6 @@ data
 
 # FILES
 *.json
+*.dat
+*.npy
+*.npz

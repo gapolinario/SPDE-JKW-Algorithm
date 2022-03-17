@@ -6,14 +6,15 @@ import sys
 N  = 2**10
 nu = 1e-5
 Ltotal = 1.
-Ttotal = 1.
-L = Ltotal/10.
+Ttotal = 10.
+L = Ltotal/30.
 alpha = 0.1
 
 dx = 1./float(N)
-dt = dx*dx
+dt = 100.*dx*dx
 visc = 4.*pi*pi*nu
 sqdx = sqrt(dx)
+sqhdx = sqrt(.5*dx)
 
 NT_estimate = int(Ttotal/dt)
 
