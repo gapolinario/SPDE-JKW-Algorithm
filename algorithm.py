@@ -13,8 +13,6 @@ all_params = {"R": R, "N": N, "nu": nu, "Ltotal": Ltotal, "Ttotal": Ttotal,
 with open(f'data/params_R_{R:06d}.json','w',encoding="utf-8") as file:
     json.dump(all_params, file)
 
-
-
 #### FUNCTIONS ####
 
 # vx: argument given in real space
@@ -41,11 +39,11 @@ def JentzenKloedenWinkelStep(v0,f0):
 
     # this term holds Fourier[ F(X)], it is an array
     # F(X) is the nonlinear drift contribution
-    #F_fourier  = NonlinearDriftFunction(np.fft.ifft(v0))
-    #F_fourier  = np.fft.fft(F_fourier)
+    F_fourier  = NonlinearDriftFunction(np.fft.ifft(v0))
+    F_fourier  = np.fft.fft(F_fourier)
     #F_fourier *= dx
 
-    F_fourier = np.zeros((N,))
+    #F_fourier = np.zeros((N,))
 
     # zero mode, linear part
     v0[0] += sqrt(dt) * f0[0]
@@ -81,7 +79,6 @@ f0 = np.zeros((N,),dtype=np.complex128)
 X = np.fft.fftfreq(N) * Ltotal
 K = np.fft.fftfreq(N) * N
 K2 = K*K
-#K2 = np.ones((N,))
 
 kernel = exp(-.5*X**2/L/L) # exponential correlation function
 kernel = sqrt(np.fft.fft(kernel))

@@ -1,5 +1,5 @@
 numcores=8
-prefix=3
+prefix=8
 
 ensemble_init=$(($prefix*1000))
 ensemble_finl=$(($prefix*1000+95))

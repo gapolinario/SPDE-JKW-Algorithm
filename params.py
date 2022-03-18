@@ -4,14 +4,14 @@ import json
 import sys
 
 N  = 2**10
-nu = 1e-5
+nu = 1.
 Ltotal = 1.
-Ttotal = 10.
-L = Ltotal/30.
-alpha = 0.1
+Ttotal = 0.10
+L = Ltotal/10.
+alpha = 2.0
 
 dx = 1./float(N)
-dt = 100.*dx*dx
+dt = 2*dx*dx
 visc = 4.*pi*pi*nu
 sqdx = sqrt(dx)
 sqhdx = sqrt(.5*dx)
