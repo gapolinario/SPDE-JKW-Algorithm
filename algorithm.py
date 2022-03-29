@@ -18,7 +18,11 @@ with open(f'data/params_R_{R:06d}.json','w',encoding="utf-8") as file:
 # vx: argument given in real space
 def NonlinearDriftFunction(vx):
 
+    # 1. linear
     return np.full((N,),alpha) * vx
+
+    # 2.
+    return alpha*(1.-vx)/(1.+vx*vx)
 
 def EulerMaruyamaStep(v0,f0):
 
