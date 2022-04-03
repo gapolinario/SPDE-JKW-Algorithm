@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 from numpy import pi,sqrt,exp
+from numpy.fft import fft,ifft,fftfreq
 
 from ext_params import *
 from params import *
@@ -22,14 +23,14 @@ def NonlinearDriftFunction(vx):
     return np.full((N,),alpha) * vx
 
     # 2.
-    return alpha*(1.-vx)/(1.+vx*vx)
+    #return alpha*(1.-vx)/(1.+vx*vx)
 
 def EulerMaruyamaStep(v0,f0):
 
     # this term holds Fourier[ F(X)], it is an array
     # F(X) is the nonlinear drift contribution
     F_fourier  = NonlinearDriftFunction(np.fft.ifft(v0))
-    F_fourier  = np.fft.fft(F_fourier)
+    F_fourier  = fft(F_fourier)
 
     v0 -= visc*dt*K2*v0
 
@@ -44,7 +45,7 @@ def JentzenKloedenWinkelStep(v0,f0):
     # this term holds Fourier[ F(X)], it is an array
     # F(X) is the nonlinear drift contribution
     F_fourier  = NonlinearDriftFunction(np.fft.ifft(v0))
-    F_fourier  = np.fft.fft(F_fourier)
+    F_fourier  = fft(F_fourier)
     #F_fourier *= dx
 
     #F_fourier = np.zeros((N,))
@@ -70,7 +71,25 @@ def JentzenKloedenWinkelStep(v0,f0):
 
     return v0
 
+# Gets v in Fourier space
+# Returns FFT(u^2) dealised where u = IFFT(v)
+def Dealias(v0):
 
+    M = N//2*3
+
+    vpad  = np.zeros(M,dtype=np.complex128)
+
+    vpad[0:N//2] = v0[0:N//2]
+    vpad[M-N//2:M] = v0[N//2:]
+
+    vpad  = fft( ifft(vpad)**2 )
+    vpad *= M/N
+
+    vf = np.zeros(N,dtype=np.complex128)
+    vf[0:N//2] = vpad[0:N//2]
+    vf[N//2:]    = vpad[M-N//2:M]
+
+    return vf
 
 
 
@@ -80,12 +99,12 @@ def JentzenKloedenWinkelStep(v0,f0):
 v0 = np.zeros((N,),dtype=np.complex128)
 f0 = np.zeros((N,),dtype=np.complex128)
 
-X = np.fft.fftfreq(N) * Ltotal
-K = np.fft.fftfreq(N) * N
+X = fftfreq(N) * Ltotal
+K = fftfreq(N) * N
 K2 = K*K
 
 kernel = exp(-.5*X**2/L/L) # exponential correlation function
-kernel = sqrt(np.fft.fft(kernel))
+kernel = sqrt(fft(kernel))
 
 # velocity fields are saved to these arrays
 v_real = np.empty((N_eval,N),dtype=np.complex128) # stationary evolution, spatial profile
@@ -99,10 +118,14 @@ for ii,t in enumerate(t_eval):
 
         # new time, new forcing
         f0 = np.random.normal(size=(N,)) * sqhdx + 1j * np.random.normal(size=(N,)) * sqhdx
-        f0 = kernel * np.fft.fft(f0)
+        f0 = kernel * fft(f0)
 
-        v0 = JentzenKloedenWinkelStep(v0,f0)
-        #v0 = EulerMaruyamaStep(v0,f0)
+        # CHOOSE algorithm
+        # 1. JKW
+        #v0 = JentzenKloedenWinkelStep(v0,f0)
+        # 2. Euler-Maruyama
+        v0 = EulerMaruyamaStep(v0,f0)
+        # END CHOOSE algorithm
 
     v_four[ii,:] = v0
     v_real[ii,:] = np.fft.ifft(v0)
