@@ -13,11 +13,10 @@
 # SIMULATIONS
 
 **Estelas**
-0: JKW, alpha=0, dt=2 dx^2, works
-1: Euler-Maruyama, alpha=0, dt=2 dx^2, works
-2: JKW, alpha=0.1, dt=2 dx^2, seems to work?
-3:
-4: JKW, alpha=0.1, dt=2 dx^2, big parameters, works very well
+
+0. EM, alpha=0.1, dt=0.2 dx^2
+1. JKW, alpha=0.1, dt=0.2 dx^2
+2. JKW, alpha=0.1, dt=2 dx^2
 
 **Tabua**
 0: Euler-Maruyama, alpha=0, dt=2 dx^2, works

@@ -14,7 +14,7 @@ all_params = {"R": R, "N": N, "nu": nu, "Ltotal": Ltotal, "Ttotal": Ttotal,
 with open(f'data/params_R_{R:06d}.json','w',encoding="utf-8") as file:
     json.dump(all_params, file)
 
-#### FUNCTIONS ####
+# ### FUNCTIONS ####
 
 # vx: argument given in real space
 def NonlinearDriftFunction(vx):
@@ -29,7 +29,7 @@ def EulerMaruyamaStep(v0,f0):
 
     # this term holds Fourier[ F(X)], it is an array
     # F(X) is the nonlinear drift contribution
-    F_fourier  = NonlinearDriftFunction(np.fft.ifft(v0))
+    F_fourier  = NonlinearDriftFunction( np.fft.ifft(v0) )
     F_fourier  = fft(F_fourier)
 
     v0 -= visc*dt*K2*v0
@@ -44,7 +44,7 @@ def JentzenKloedenWinkelStep(v0,f0):
 
     # this term holds Fourier[ F(X)], it is an array
     # F(X) is the nonlinear drift contribution
-    F_fourier  = NonlinearDriftFunction(np.fft.ifft(v0))
+    F_fourier  = NonlinearDriftFunction( np.fft.ifft(v0) )
     F_fourier  = fft(F_fourier)
     #F_fourier *= dx
 
@@ -63,7 +63,7 @@ def JentzenKloedenWinkelStep(v0,f0):
   	# linear drift
     v0[1:] *= exp(-cte*K2[1:])
     # noise
-    weight  = 1.-exp(-2.*visc*dt*K2[1:])
+    weight  = 1. - exp( -2.*visc*dt*K2[1:] )
     weight *= .5/visc/K2[1:]
     weight  = sqrt(weight)
 
@@ -93,7 +93,7 @@ def Dealias(v0):
 
 
 
-#### INTEGRATION ####
+# ### INTEGRATION ####
 
 # arrays
 v0 = np.zeros((N,),dtype=np.complex128)
@@ -122,9 +122,9 @@ for ii,t in enumerate(t_eval):
 
         # CHOOSE algorithm
         # 1. JKW
-        #v0 = JentzenKloedenWinkelStep(v0,f0)
+        v0 = JentzenKloedenWinkelStep(v0,f0)
         # 2. Euler-Maruyama
-        v0 = EulerMaruyamaStep(v0,f0)
+        #v0 = EulerMaruyamaStep(v0,f0)
         # END CHOOSE algorithm
 
     v_four[ii,:] = v0

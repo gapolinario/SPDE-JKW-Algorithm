@@ -8,10 +8,10 @@ nu = 0.01
 Ltotal = 1.
 Ttotal = 0.10
 L = Ltotal/10.
-alpha = 0.
+alpha = 0.1
 
 dx = 1./float(N)
-dt = 0.2*dx*dx
+dt = 2*dx*dx
 visc = 4.*pi*pi*nu
 sqdx = sqrt(dx)
 sqhdx = sqrt(.5*dx)
