@@ -3,15 +3,15 @@ from numpy import pi,sqrt
 import json
 import sys
 
-N  = 2**10
+N  = 2**8
 nu = 0.01
 Ltotal = 1.
-Ttotal = 10.
+Ttotal = 20.
 L = Ltotal/10.
 alpha = 0.1
 
 dx = 1./float(N)
-dt = 0.5*dx*dx
+dt = 2.*dx*dx
 visc = 4.*pi*pi*nu
 sqdx = sqrt(dx)
 sqhdx = sqrt(.5*dx)

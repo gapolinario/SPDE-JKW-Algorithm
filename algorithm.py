@@ -90,6 +90,7 @@ f0 = np.zeros((N,),dtype=np.complex128)
 X = fftfreq(N) * Ltotal
 K = fftfreq(N) * N
 K2 = K*K
+K2 = 1.
 
 kernel = exp(-.5*X**2/L/L) # exponential correlation function
 kernel = sqrt(fft(kernel))
@@ -118,9 +119,9 @@ for ii,t in enumerate(t_eval):
 
         # CHOOSE algorithm
         # 1. JKW
-        #v0 = JentzenKloedenWinkelStep(v0,f0)
+        v0 = JentzenKloedenWinkelStep(v0,f0)
         # 2. Euler-Maruyama
-        v0 = EulerMaruyamaStep(v0,f0)
+        #v0 = EulerMaruyamaStep(v0,f0)
         # END CHOOSE algorithm
 
     v_four[ii,:] = v0
