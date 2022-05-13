@@ -7,7 +7,7 @@ from ext_params import *
 from params import *
 
 all_params = {"R": R, "N": N, "nu": nu, "Ltotal": Ltotal, "Ttotal": Ttotal,
-              "L": L, "alpha": alpha, "dx": dx, "dt": dt, "NT": NT,
+              "L": L, "alpha": alpha, "dx": dx, "dt/dx^2": dt/dx**2, "NT": NT,
               "visc": visc, "sqdx": sqdx}
               #, "t_eval": t_eval, "N_eval": N_eval, "N_skip": N_skip}
 
@@ -29,10 +29,10 @@ def EulerMaruyamaStep(v0,f0):
 
     # this term holds Fourier[ F(X)], it is an array
     # F(X) is the nonlinear drift contribution
-    F_fourier  = NonlinearDriftFunction( np.fft.ifft(v0) )
+    F_fourier  = NonlinearDriftFunction( ifft(v0) )
     F_fourier  = fft(F_fourier)
 
-    F_fourier = np.zeros(N)
+    #F_fourier  = np.zeros(N)
 
     v0 -= visc*dt*K2*v0
 
@@ -46,9 +46,10 @@ def JentzenKloedenWinkelStep(v0,f0):
 
     # this term holds Fourier[ F(X)], it is an array
     # F(X) is the nonlinear drift contribution
-    F_fourier  = NonlinearDriftFunction( np.fft.ifft(v0) )
-    F_fourier  = fft(F_fourier)
-    #F_fourier *= dx
+    #F_fourier  = NonlinearDriftFunction( np.fft.ifft(v0) )
+    #F_fourier  = fft(F_fourier)
+
+    F_fourier = - alpha * v0
 
     # nonlinear drift
     v0 += dt * F_fourier
@@ -94,6 +95,8 @@ K2 = 1.
 
 kernel = exp(-.5*X**2/L/L) # exponential correlation function
 kernel = sqrt(fft(kernel))
+
+kernel = 1.
 
 # noise
 noise_weight  = np.ones(N)

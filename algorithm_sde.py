@@ -7,7 +7,7 @@ from ext_params import *
 from params import *
 
 all_params = {"R": R, "N": N, "nu": nu, "Ltotal": Ltotal, "Ttotal": Ttotal,
-              "L": L, "alpha": alpha, "dx": dx, "dt": dt, "NT": NT,
+              "L": L, "alpha": alpha, "dx": dx, "dt/dx^2": dt/dx**2, "NT": NT,
               "visc": visc, "sqdx": sqdx}
               #, "t_eval": t_eval, "N_eval": N_eval, "N_skip": N_skip}
 

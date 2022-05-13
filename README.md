@@ -35,13 +35,13 @@ $$
 $$
 We approximate the first integral, which involves the nonlinear term, by its simplest approximation
 $$
-\int_{t_n}^{t_{n+1}} ds \, e^{4\pi^2\nu k^2 (s-t_{n+1})} \widehat{F}\left( \widehat{X}(s) \right) ds \approx \delta t \, e^{- 4\pi^2\nu k^2 \delta t} \widehat{F}\left( \widehat{X}(s) \right)
+\int_{t_n}^{t_{n+1}} ds \, e^{4\pi^2\nu k^2 (s-t_{n+1})} \widehat{F}\left( \widehat{X}(s) \right) ds \approx \delta t \, e^{- 4\pi^2\nu k^2 \delta t} \widehat{F}\left( \widehat{X}(t_n) \right)
 $$
 This is a first order IF method, it approximates the nonlinear integrand by a polynomial (this is explained in Yang Grooms Julien 2021)
 
 ETD methods, on the other hand, approximate only the nonlinear term by a polynomial,
 $$
-\int_{t_n}^{t_{n+1}} ds \, e^{4\pi^2\nu k^2 (s-t_{n+1})} \widehat{F}\left( \widehat{X}(s) \right) ds &\approx \widehat{F}\left( \widehat{X}(t_n) \right) \int_{t_n}^{t_{n+1}} ds \, e^{4\pi^2\nu k^2 (s-t_{n+1})} ds \\
+\int_{t_n}^{t_{n+1}} ds \, e^{4\pi^2\nu k^2 (s-t_{n+1})} \widehat{F}\left( \widehat{X}(s) \right) ds &\approx \widehat{F}\left( \widehat{X}(t_n) \right) \int_{t_n}^{t_{n+1}} ds \, e^{4\pi^2\nu k^2 (s-t_{n+1})} \\
 &= \widehat{F}\left( \widehat{X}(t_n) \right) \frac{1-e^{-4\pi^2 \nu k^2 \delta t}}{4\pi^2 \nu k^2}
 $$
 
@@ -252,7 +252,7 @@ $$
 2. Other analytical tests (Kloeden Platen p. 118)
 3. Understand difference IF and ETD, Higher order
 
-# SIMULATIONS
+# SIMULATIONSYang Grooms Julien 2021)
 
 **Estelas**
 
