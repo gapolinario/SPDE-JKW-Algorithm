@@ -167,7 +167,6 @@ $$
 \widehat{g}(k_n) = \sqrt{\widehat{C}(k_n) \frac{1-e^{-8\pi^2 \nu k_n^2 \delta t}}{8 \pi^2 \nu k_n^2}}  \, \mathrm{DFT} \left[ \xi \sqrt{\delta x} \right]_n
 $$
 
-
 **The Numerical Scheme**
 
 So we summarize this as
@@ -193,9 +192,17 @@ $$
 
 
 
+Looking at the noise term in the equations we see that large k correspond to smaller time scales $T=1/(\alpha k^2)$ if $\alpha$ is the diffusion coefficient. Hence large k require a very small dt, while small k correspond to very large typical times and we can use a bigger dt. This matches the observations that convergence is better for smaller k.
 
+**Why does the zero mode keep growing?**
 
-
+It is governed by
+$$
+\widehat{X}_{0,n+1} = \widehat{X}_{0,n} +
+\delta t \, \mathrm{DFT}\left[F(X_{\cdot,n})\right]_{0}
++ \sqrt{\delta t} \widehat{f}_{0,n}
+$$
+In the specific case of 
 
 
 

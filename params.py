@@ -3,15 +3,17 @@ from numpy import pi,sqrt
 import json
 import sys
 
-N  = 2**10
+N  = 2**8
 nu = 0.01
 Ltotal = 1.
-Ttotal = 10.
+Ttotal = 1.
 L = Ltotal/10.
 alpha = 0.02
 
 dx = 1./float(N)
-dt = 2.*dx*dx
+dt = 0.05*dx*dx
+# linear analysis suggests
+# dt < dx^2 / ( pi^2 nu Ltotal^2 )
 visc = 4.*pi*pi*nu
 sqdx = sqrt(dx)
 sqhdx = sqrt(.5*dx)
