@@ -3,7 +3,6 @@ import sys
 from numpy import pi,sqrt,exp
 from numpy.fft import fft,ifft,fftfreq
 
-from ext_params import *
 from params import *
 
 all_params = {"R": R, "N": N, "nu": nu, "Ltotal": Ltotal, "Ttotal": Ttotal,
@@ -41,10 +40,10 @@ def EulerMaruyamaStep(v0,f0):
 
     # this term holds Fourier[ F(X)], it is an array
     # F(X) is the nonlinear drift contribution
-    F_fourier  = NonlinearDriftFunction( ifft(v0) )
-    F_fourier  = fft(F_fourier)
+    #F_fourier  = NonlinearDriftFunction( ifft(v0) )
+    #F_fourier  = fft(F_fourier)
 
-    #F_fourier  = NonlinearDriftFunctionFourier( v0 )
+    F_fourier  = NonlinearDriftFunctionFourier( v0 )
 
     v0 -= visc*dt*K2*v0
 
@@ -88,10 +87,10 @@ def JentzenKloedenWinkelStep(v0,f0):
 
     # this term holds Fourier[ F(X)], it is an array
     # F(X) is the nonlinear drift contribution
-    #F_fourier  = NonlinearDriftFunction( np.fft.ifft(v0) )
-    #F_fourier  = fft(F_fourier)
+    F_fourier  = NonlinearDriftFunction( np.fft.ifft(v0) )
+    F_fourier  = fft(F_fourier)
 
-    F_fourier = 0.
+    #F_fourier = 0.
 
     #F_fourier  = NonlinearDriftFunctionFourier( v0 )
 
@@ -124,7 +123,7 @@ def Dealias(v0):
 
     return vf
 
-# ### INTEGRATION ####
+#### INTEGRATION ####
 
 # arrays
 v0 = np.zeros((N,),dtype=np.complex128)
@@ -167,7 +166,7 @@ for ii,t in enumerate(t_eval):
         # 2. Euler-Maruyama
         #v0 = EulerMaruyamaStep(v0,f0)
         # 3. Predictor-Corrector
-        v0 = PredictorCorrectorStep(v0,f0)
+        #v0 = PredictorCorrectorStep(v0,f0)
         # END CHOOSE algorithm
 
     v_four[ii,:] = v0
@@ -175,5 +174,5 @@ for ii,t in enumerate(t_eval):
     f_four[ii,:] = f0
     f_real[ii,:] = np.fft.ifft(f0)
 
-fname = f'data/test_jkw_R_{R:06d}'
+fname = f'data/test_jkw_R_{R:06d}_N_{BN:02d}_dtconst_{dtconst:.06f}_nu_{nu:.06f}'
 np.savez( fname , v_real=v_real, v_four=v_four, f_four=f_four, f_real=f_real )
